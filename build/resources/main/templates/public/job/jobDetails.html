@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="layout :: head('candidate profile')"></head>
+<body>
+<div sec:authorize="isAnonymous()">
+    <div th:replace="layout :: nav"></div>
+</div>
+<div sec:authorize="hasRole('ROLE_CANDIDATE')">
+    <div th:replace="public/candidateLayout :: nav"></div>
+</div>
+<div sec:authorize="hasRole('ROLE_COMPANY')">
+    <div th:replace="public/companyLayout :: nav"></div>
+</div>
+<div sec:authorize="hasRole('ROLE_ADMIN')">
+    <div th:replace="public/adminLayout :: nav"></div>
+</div>
+
+<div class="container grayContainer" style="height:fit-content; margin-top:10px">
+    <div class="row">
+        <p class="name" style="margin:0px; font-size: 28px;font-weight: bold;float:left;color: black;" th:text="${job.name}">Job Name</p>
+    </div>
+    <div style="text-align:left;font-size: 20px;">
+        <a class="name" style="text-align:left;font-size: 20px; text: underline;" th:href="@{|/company/${job.companyID}|}" th:text="'at ' + ${company.name}"/>
+    </div>
+    <p style="text-align:left;font-size: 20px;" th:text="'in ' + ${company.city}+', '+${company.state}">Company Location</p>
+    <div sec:authorize="hasRole('ROLE_CANDIDATE')">
+        <div style="text-align:left;">
+            <a th:href="@{|/auth/candidate/apply/${job.id}|}"><button type="submit" class="button">Apply</button></a>
+            <p></p>
+        </div>
+    </div>
+    <div class="divider"></div>
+    <div class="name" style="text-align:left;color: black;" th:text="${job.description}">Job Description</div>
+
+
+
+
+</div>
+
+
+<div th:replace="layout :: scripts"></div>
+
+</body>
+</html>
